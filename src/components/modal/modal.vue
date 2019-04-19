@@ -60,7 +60,9 @@
             },
             maskClosable: {
                 type: Boolean,
-                default: true
+                default () {
+                    return !this.$IVIEW || this.$IVIEW.modal.maskClosable === '' ? true : this.$IVIEW.modal.maskClosable;
+                }
             },
             title: {
                 type: String
@@ -280,8 +282,8 @@
 
                 const $content = this.$refs.content;
                 const rect = $content.getBoundingClientRect();
-                this.dragData.x = rect.x;
-                this.dragData.y = rect.y;
+                this.dragData.x = rect.x || rect.left;
+                this.dragData.y = rect.y || rect.top;
 
                 const distance = {
                     x: event.clientX,
